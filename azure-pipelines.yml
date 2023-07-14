@@ -33,4 +33,4 @@ stages:
         action: 'deploy'
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
-        manifests: '**/k8s/simple'
+        manifests: 'frontend-deployment.yaml service-frontend-lb.yaml'
