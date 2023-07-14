@@ -27,7 +27,7 @@ stages:
         repository: 'bhargavd1995/order-management'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+        tags: '14.07'
     - task: KubernetesManifest@1
       inputs:
         action: 'deploy'
