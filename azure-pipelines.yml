@@ -27,5 +27,5 @@ stages:
         connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
         manifests: '
-          order-management/k8s/simple/service-frontend-lb.yaml
-          order-management/k8s/simple/frontend-deployment.yaml'
+          k8s/simple/service-frontend-lb.yaml
+          k8s/simple/frontend-deployment.yaml'
