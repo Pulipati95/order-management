@@ -1,0 +1,45 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    # - task: NodeTaskRunnerInstaller@0
+    #   inputs:
+    #     nodeVersion: '6'
+        
+    # - task: SonarQubePrepare@5
+    #   inputs:
+    #     SonarQube: 'SonarQube connection'
+    #     scannerMode: 'CLI'
+    #     configMode: 'manual'
+    #     cliProjectKey: 'Order-Management_Order-Management_AYlsEU4Yg3_o9K2LArq4'
+    #     cliSources: '.'
+    # - task: SonarQubeAnalyze@5
+    #   inputs:
+    #     jdkversion: 'JAVA_HOME_11_X64'
+    # - task: SonarQubePublish@5
+    #   inputs:
+    #     pollingTimeoutSec: '300'
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
+        manifests: 'k8s/simple/frontend-deployment.yaml'
