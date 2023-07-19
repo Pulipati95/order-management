@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: k8s-finalproject
-        image: bhargavd1995/k8s-finalproject:1.0.2
+        image: bhargavd1995/order-management:14.07
         ports:
         - containerPort: 8080
         resources:
