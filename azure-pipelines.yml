@@ -36,8 +36,7 @@ stages:
     - task: KubernetesManifest@0
       displayName: Deploy K8s manifests
       inputs:
-        action: 'deploy'
         kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
-        namespace: 'preview'
-        manifests: '$(bake.manifestsBundle):$(Build.BuildId)'
-        containers: 'bhargavd1995/order-management'
+        manifests: $(bake.manifestsBundle)
+        containers: 'bhargavd1995/order-management:$(Build.BuildId)'
+        namespace: preview
