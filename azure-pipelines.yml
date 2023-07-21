@@ -31,7 +31,7 @@ stages:
       inputs:
         action: bake
         renderType: kustomize
-        kustomizationPath:  k8s/kustomize/simple
+        kustomizationPath:  \k8s\kustomize\simple
 
     - task: KubernetesManifest@0
       displayName: Deploy K8s manifests
