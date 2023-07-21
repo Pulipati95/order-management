@@ -20,16 +20,24 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Docker@2
+    - task: NodeTool@0
+      displayName: Node Install
       inputs:
-        containerRegistry: 'docker-hub-devops'
-        repository: 'bhargavd1995/order-management'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: '19.07'
-    - task: KubernetesManifest@1
+        versionSource: 'spec'
+        versionSpec: '6.x'
+    - task: KubernetesManifest@0
+      name: bake
+      displayName: Bake K8s manifests from Helm chart
+      inputs:
+        action: bake
+        renderType: kustomize
+        kustomizationPath:  k8s/kustomize/simple
+
+    - task: KubernetesManifest@0
+      displayName: Deploy K8s manifests
       inputs:
         action: 'deploy'
-        connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
-        manifests: 'k8s/simple/frontend-deployment.yaml'
+        namespace: 'preview'
+        manifests: '$(bake.manifestsBundle):$(Build.BuildId)'
+        containers: 'bhargavd1995/order-management'
