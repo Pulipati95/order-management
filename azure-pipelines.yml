@@ -20,26 +20,24 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    # - task: NodeTaskRunnerInstaller@0
-    #   inputs:
-    #     nodeVersion: '6'
-        
-    # - task: SonarQubePrepare@5
-    #   inputs:
-    #     SonarQube: 'SonarQube connection'
-    #     scannerMode: 'CLI'
-    #     configMode: 'manual'
-    #     cliProjectKey: 'Order-Management_Order-Management_AYlsEU4Yg3_o9K2LArq4'
-    #     cliSources: '.'
-    # - task: SonarQubeAnalyze@5
-    #   inputs:
-    #     jdkversion: 'JAVA_HOME_11_X64'
-    # - task: SonarQubePublish@5
-    #   inputs:
-    #     pollingTimeoutSec: '300'
-    - task: KubernetesManifest@1
+    - task: NodeTool@0
+      displayName: Node Install
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '6.x'
+    - task: KubernetesManifest@0
+      name: bake
+      displayName: Bake K8s manifests from Helm chart
+      inputs:
+        action: bake
+        renderType: kustomize
+        kustomizationPath:  k8s/kustomize/simple
+
+    - task: KubernetesManifest@0
+      displayName: Deploy K8s manifests
       inputs:
         action: 'deploy'
-        connectionType: 'kubernetesServiceConnection'
         kubernetesServiceConnection: 'azure-pipelines-cicd-dev'
-        manifests: 'k8s/simple/frontend-deployment.yaml'
+        namespace: 'preview'
+        manifests: '$(bake.manifestsBundle):$(Build.BuildId)'
+        containers: 'bhargavd1995/order-management'
