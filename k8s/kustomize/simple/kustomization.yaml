@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - frontend-deployment.yaml
 - service-frontend-lb.yaml
+- namespace.yaml
 
 images:
 - name: bhargavd1995/order-management
