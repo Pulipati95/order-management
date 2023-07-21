@@ -6,5 +6,5 @@ resources:
 - service-frontend-lb.yaml
 
 images:
-- name: basilvarghese/myapp-frontend
+- name: bhargavd1995/order-management
   newTag: 1.0.0
