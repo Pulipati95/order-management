@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service              # 1
 metadata:
-  name: DevOps-Project
+  name: devops-project
 spec: 
   type: LoadBalancer
   ports:
